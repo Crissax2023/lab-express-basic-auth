@@ -17,8 +17,24 @@ const favicon = require("serve-favicon");
 // https://www.npmjs.com/package/path
 const path = require("path");
 
+const session = require("express-session");
+
+
+
 // Middleware configuration
 module.exports = (app) => {
+
+  app.use(
+    session({
+      secret:process.env.SESSION_SECRET,
+      resave:true,
+      saveUninitialized:false,
+      cookie:{
+        httpOnly:true,
+        maxAge:50000
+      }
+    })
+  )
   // In development environment the app logs
   app.use(logger("dev"));
 

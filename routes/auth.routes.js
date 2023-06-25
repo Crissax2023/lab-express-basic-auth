@@ -3,11 +3,17 @@ const bcryptjs = require('bcryptjs');
 const express = require('express')
 const userRouter = express.Router()
 const User = require('../models/User.model')
+const { 
+    getSignup,
+    postSignup,
+    getProfile,
+    getLogin,
+    postLogin,
+} = require('../controllers/auth.controller')
 
-
-const signup = (req,res)=>[
+const signup = (req,res)=>{
     res.render('auth/signup')
-]
+}
 
 userRouter.get('/signup',signup)
 
@@ -33,13 +39,15 @@ userRouter.get('/profile/:userId',(req,res,next)=>{
     const {userId} = req.params
     User.findById(userId)
         .then(user=>{
-                console.log(user)
+                console.log(user) 
                 res.render('user/profile',{username:user.username,password:user.password})
 
         })
         .catch(error=> next(error))
 
 })
+
+
 
 
 module.exports = userRouter
